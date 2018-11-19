@@ -1,7 +1,22 @@
 use std::env;
 use std::fs::File;
-use std::io::ErrorKind;
 use std::io::{Error, Read};
+
+struct Token {}
+
+struct AddToken {}
+impl AddToken {
+  pub fn new() -> Token {
+    Token {}
+  }
+}
+
+struct SubToken {}
+impl SubToken {
+  pub fn new() -> Token {
+    Token {}
+  }
+}
 
 fn read_file(file_name: String) -> std::result::Result<String, Error> {
   let mut file = File::open(file_name)?;
@@ -21,8 +36,21 @@ fn main() {
       println!("File not found");
     }
     Ok(contents) => {
+      let mut tokens: Vec<Token> = Vec::new();
       for c in contents.chars() {
-        print!("{}", c);
+        match c {
+          '+' => {
+            tokens.push(AddToken::new());
+            println!("ADD");
+          }
+          '-' => {
+            tokens.push(SubToken::new());
+            println!("SUBTRACT");
+          }
+          _ => {
+            continue;
+          }
+        }
       }
     }
   }
